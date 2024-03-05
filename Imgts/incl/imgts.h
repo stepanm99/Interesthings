@@ -2,6 +2,8 @@
 #include <math.h>
 #include <stdint.h>
 #include <string.h>
+#include <stddef.h>
+#include <stdlib.h>
 
 #define PI 3.14159265358979323846
 
@@ -55,6 +57,8 @@ typedef struct s_data{
 
 /*----    File operations    ----*/
 
+void	free_data(t_data *data);
 int		open_files(t_data *data, const char **argv);
 void	close_files(t_data *data);
 int		read_bitmap_header(t_data *data);
+int		read_bitmap_data(t_data *data);
