@@ -1,9 +1,9 @@
 NAME = imgts
 
-SRC = main.c
+SRC = main.c src/data.c
 
 CC = cc
-FLAGS = -Wall -Wextra -Werror -g
+FLAGS = #-Wall -Wextra -Werror -g
 DFLAGS = -Wall -Wextra -Werror -g -fsanitize=address -static-libsan
 PRINT_FLAG = -D PRINT_NUMBER_OF_EATS=1
 

@@ -1,10 +1,11 @@
 #include <stdio.h>
-#include <string.h>
 #include <stdint.h>
 #include <math.h>
+#include <string.h>
 
 #define PI 3.14159265358979323846
 
+//#pragma pack(push, 1)
 typedef struct {
     char chunkId[4];
     uint32_t chunkSize;
@@ -20,13 +21,13 @@ typedef struct {
     char subchunk2Id[4];
     uint32_t subchunk2Size;
 } WavHeader;
+//#pragma pack(pop)
 
 void writeWavHeader(FILE* file, int sampleRate, int bitsPerSample, int numChannels, int dataSize) {
     WavHeader header;
 
-    // Prepare the WAV header
     memcpy(header.chunkId, "RIFF", 4);
-    header.chunkSize = dataSize + sizeof(WavHeader) - 8;
+    header.chunkSize = 36 + dataSize;
     memcpy(header.format, "WAVE", 4);
     memcpy(header.subchunk1Id, "fmt ", 4);
     header.subchunk1Size = 16;
@@ -39,7 +40,6 @@ void writeWavHeader(FILE* file, int sampleRate, int bitsPerSample, int numChanne
     memcpy(header.subchunk2Id, "data", 4);
     header.subchunk2Size = dataSize;
 
-    // Write the header to the file
     fwrite(&header, sizeof(header), 1, file);
 }
 
@@ -52,7 +52,7 @@ int main() {
 
     // Parameters
     int frequency = 480;  // Frequency in Hz
-    int duration = 120;      // Duration of the sound in seconds
+    int duration = 3;      // Duration of the sound in seconds
     int volume = 32767;    // Amplitude
 
     // Sampling parameters
@@ -61,19 +61,21 @@ int main() {
     int bitsPerSample = 16;
     int numSamples = duration * sampleRate;
 
+    // Calculate data size
+    int dataSize = numSamples * sizeof(int16_t);
+
+    // Write WAV header
+    writeWavHeader(file, sampleRate, bitsPerSample, numChannels, dataSize);
+
     // Calculate the sine wave
     double timeStep = 1.0 / sampleRate;
     for (int i = 0; i < numSamples; ++i) {
         double t = i * timeStep;
-        int16_t sample = volume * sin(2 * PI * frequency * t);
+        int16_t sample = volume * sin(2 * PI * frequency *(t));
 
         // Write the sample to the file
         fwrite(&sample, sizeof(sample), 1, file);
     }
-
-    // Calculate data size and update header
-    int dataSize = numSamples * sizeof(int16_t);
-    writeWavHeader(file, sampleRate, bitsPerSample, numChannels, dataSize);
 
     fclose(file);
 
