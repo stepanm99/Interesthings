@@ -1,0 +1,44 @@
+[Buildset]
+BuildItems=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x00\x01\x00\x00\x00\n\x00I\x00m\x00g\x00t\x00s)
+
+[Launch]
+Launch Configurations=Launch Configuration 0
+
+[Launch][Launch Configuration 0]
+Configured Launch Modes=execute,debug
+Configured Launchers=nativeAppLauncher,gdb
+Name=New Compiled Binary Launcher
+Type=Native Application
+
+[Launch][Launch Configuration 0][Data]
+Arguments="sample2.bmp" "output.wav"
+Break on Start=false
+Debugger Shell=
+Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x00)
+Dependency Action=Nothing
+Display Demangle Names=true
+Display Static Members=false
+EnvironmentGroup=
+Executable=file:///home/stepan/Documents/Programming/Interesthings/Imgts/imgts
+External Terminal=konsole --noclose --workdir %workdir -e %exe
+GDB Path=
+Kill Before Executing Again=4194304
+LLDB Arguments=
+LLDB Config Script=
+LLDB Environment=
+LLDB Executable=
+LLDB Inherit System Env=true
+LLDB Remote Debugging=false
+LLDB Remote Path=
+LLDB Remote Server=
+Project Target=
+Remote GDB Config Script=
+Remote GDB Run Script=
+Remote GDB Shell Script=
+Start With=ApplicationOutput
+Use External Terminal=false
+Working Directory=file:///home/stepan/Documents/Programming/Interesthings/Imgts
+isExecutable=true
+
+[Project]
+VersionControlSupport=kdevgit

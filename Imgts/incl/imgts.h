@@ -46,19 +46,30 @@ typedef struct {
 	uint32_t subchunk2Size;
 } t_wav_header;
 
+typedef struct s_pixel {
+	unsigned char	r;
+	unsigned char	g;
+	unsigned char	b;
+}	t_pixel;
+
 typedef struct s_data{
 	FILE			*bmp_file;
 	FILE			*wav_file;
-	void			*bmp;
-	void			*wav;
+	unsigned char	*bmp_data;
+	uint16_t		*wav_data;
+	t_pixel			*pixels;
 	t_bmp_header	bmp_header;
 	t_wav_header	wav_header;
 }	t_data;
 
-/*----    File operations    ----*/
+/*----    File functions    ----*/
 
 void	free_data(t_data *data);
 int		open_files(t_data *data, const char **argv);
 void	close_files(t_data *data);
 int		read_bitmap_header(t_data *data);
 int		read_bitmap_data(t_data *data);
+
+/*----    Bitmap functions    ----*/
+
+
