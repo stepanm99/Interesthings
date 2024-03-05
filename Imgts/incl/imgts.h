@@ -57,3 +57,4 @@ typedef struct s_data{
 
 int		open_files(t_data *data, const char **argv);
 void	close_files(t_data *data);
+int		read_bitmap_header(t_data *data);
