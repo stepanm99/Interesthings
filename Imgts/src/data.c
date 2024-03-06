@@ -1,5 +1,4 @@
 #include "../incl/imgts.h"
-#include <stdint.h>
 
 void	free_data(t_data *data)
 {
@@ -54,30 +53,29 @@ int	read_bitmap_header(t_data *data)
 
 int	read_bitmap_data(t_data *data)
 {
-	int32_t			i;
-	int32_t			j;
-	int32_t			k;
-	int32_t			x;
-	int32_t			y;
-	int32_t			padded_row;
-	unsigned char	*temp;
+	int32_t	i;
+	int32_t	j;
+	int32_t	k;
+	int32_t	y;
+	int32_t	row_padding;
 
-	x = 0;
-	y = 0;
 	i = 0;
 	j = 0;
-	k = 0;
-	padded_row = (data->bmp_header.width_px * 3 + 3) & (~3);
-	printf("Padded row: %i\n", padded_row);
+	k = 1;
+	y = 0;
+	fseek(data->bmp_file, (long)data->bmp_header.offset, SEEK_SET);
+	row_padding = ((data->bmp_header.width_px * 3 + 3) & (~3)) - (data->bmp_header.width_px * 3);
 
-	data->bmp_data = malloc(data->bmp_header.size - sizeof(t_bmp_header));
+	printf("row padding: %i, i: %i, j: %i\n", row_padding, i, j);
+
+	data->bmp_data = malloc(data->bmp_header.image_size_bytes);
 	if (!data->bmp_data)
 	{
 		printf("BMP data allocation error!\n");
 		return (1);
 	}
 
-	if (!fread(data->bmp_data, data->bmp_header.image_size_bytes, 1, data->bmp_file))
+	if (!fread(data->bmp_data, (data->bmp_header.image_size_bytes), 1, data->bmp_file))
 	{
 		printf("Error while reading BMP data!\n");
 		return (1);
@@ -90,21 +88,21 @@ int	read_bitmap_data(t_data *data)
 		return (1);
 	}
 
-	temp = malloc(padded_row + 1);
-	if (!temp)
+	while (y != data->bmp_header.width_px)
 	{
-		printf("Temp allocation error!\n");
-		return (1);
+		y++;
+		while (k != data->bmp_header.width_px)
+		{
+			data->pixels[i].b = data->bmp_data[j];
+			data->pixels[i].g = data->bmp_data[j+1];
+			data->pixels[i].r = data->bmp_data[j+2];
+			j += 3;
+			i++;
+			k++;
+		}
+		j += row_padding;
+		k = 1;
 	}
-
-	while (i != data->bmp_header.image_size_bytes)
-	{
-
-		j++;
-		i++;
-	}
-
-	free(temp);
 	return (0);
 }
 

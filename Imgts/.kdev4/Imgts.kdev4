@@ -11,7 +11,7 @@ Name=New Compiled Binary Launcher
 Type=Native Application
 
 [Launch][Launch Configuration 0][Data]
-Arguments="sample2.bmp" "output.wav"
+Arguments="sample1.bmp" "output.wav"
 Break on Start=false
 Debugger Shell=
 Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x00)

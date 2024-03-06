@@ -1,3 +1,6 @@
+#ifndef IMGTS_H
+# define IMGTS_H
+
 #include <stdio.h>
 #include <math.h>
 #include <stdint.h>
@@ -72,4 +75,6 @@ int		read_bitmap_data(t_data *data);
 
 /*----    Bitmap functions    ----*/
 
+void	get_pixel(t_pixel *pixel, t_pixel *pixel_data, int32_t x, int32_t y);
 
+#endif
