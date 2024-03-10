@@ -42,6 +42,7 @@ int	main(int argc, const char **argv)
 
 	x = 0;
 	y = 0;
+	data_init(&data);
 	printf("argc: %i\n", argc);
 	if (argc != 3)
 	{

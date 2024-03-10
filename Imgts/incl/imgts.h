@@ -33,7 +33,7 @@ typedef struct s_bmp_header{
 } t_bmp_header;
 # pragma pack(pop)
 
-typedef struct {
+typedef struct s_wav_header{
 	char chunkId[4];
 	uint32_t chunkSize;
 	char format[4];
@@ -72,6 +72,7 @@ int		open_files(t_data *data, const char **argv);
 void	close_files(t_data *data);
 int		read_bitmap_header(t_data *data);
 int		read_bitmap_data(t_data *data);
+void	data_init(t_data *data);
 
 /*----    Bitmap functions    ----*/
 

@@ -1,5 +1,14 @@
 #include "../incl/imgts.h"
 
+void	data_init(t_data *data)
+{
+	data->bmp_data = NULL;
+	data->bmp_file = NULL;
+	data->wav_data = NULL;
+	data->wav_file = NULL;
+	data->pixels = NULL;
+}
+
 void	free_data(t_data *data)
 {
 	if (data->bmp_data)
@@ -53,56 +62,58 @@ int	read_bitmap_header(t_data *data)
 
 int	read_bitmap_data(t_data *data)
 {
-	int32_t	i;
-	int32_t	j;
-	int32_t	k;
+	int32_t	x;
 	int32_t	y;
-	int32_t	row_padding;
+	int32_t	row;
+	int32_t	padding;
 
-	i = 0;
-	j = 0;
-	k = 1;
+	x = 0;
 	y = 0;
-	fseek(data->bmp_file, (long)data->bmp_header.offset, SEEK_SET);
-	row_padding = ((data->bmp_header.width_px * 3 + 3) & (~3)) - (data->bmp_header.width_px * 3);
+	row = (data->bmp_header.width_px * 3 + 3) & ~3;
+	padding = row - (data->bmp_header.width_px * 3);
 
-	printf("row padding: %i, i: %i, j: %i\n", row_padding, i, j);
-
-	data->bmp_data = malloc(data->bmp_header.image_size_bytes);
+	data->bmp_data = malloc(row * data->bmp_header.height_px);
 	if (!data->bmp_data)
 	{
-		printf("BMP data allocation error!\n");
-		return (1);
+		printf("Error while allocating memory for bmp_data!\n");
+		return (-1);
 	}
-
-	if (!fread(data->bmp_data, (data->bmp_header.image_size_bytes), 1, data->bmp_file))
-	{
-		printf("Error while reading BMP data!\n");
-		return (1);
-	}
-
 	data->pixels = malloc(sizeof(t_pixel) * (data->bmp_header.width_px * data->bmp_header.height_px));
 	if (!data->pixels)
 	{
-		printf("Pixels allocation error!\n");
-		return (1);
+		printf("Error while allocating memory for pixels!\n");
+		return (-1);
 	}
 
-	while (y != data->bmp_header.width_px)
+	fseek(data->bmp_file, data->bmp_header.offset, SEEK_SET);
+
+	while (y < data->bmp_header.height_px)
 	{
-		y++;
-		while (k != data->bmp_header.width_px)
+		while (x < data->bmp_header.width_px)
 		{
-			data->pixels[i].b = data->bmp_data[j];
-			data->pixels[i].g = data->bmp_data[j+1];
-			data->pixels[i].r = data->bmp_data[j+2];
-			j += 3;
-			i++;
-			k++;
+			fread(&data->bmp_data[(y * row) + (x * 3)], 3, 1, data->bmp_file);
+			x++;
 		}
-		j += row_padding;
-		k = 1;
+		fseek(data->bmp_file, padding, SEEK_CUR);
+		x = 0;
+		y++;
 	}
+
+	x = 0;
+	y = 0;
+
+	while (x < (data->bmp_header.width_px * data->bmp_header.height_px * 3))
+	{
+		data->pixels[y].b = data->bmp_data[x];
+		data->pixels[y].g = data->bmp_data[x + 1];
+		data->pixels[y].r = data->bmp_data[x + 2];
+		y++;
+		x += 3;
+	}
+
+	free(data->bmp_data);
+	data->bmp_data = NULL;
+
 	return (0);
 }
 
