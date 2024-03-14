@@ -21,6 +21,7 @@ void	free_data(t_data *data)
 
 int	open_files(t_data *data, const char **argv)
 {
+	printf("Opening/creating files\n");
 	data->bmp_file = fopen(argv[1], "rb");
 	if (!data->bmp_file)
 	{
@@ -48,6 +49,7 @@ void	close_files(t_data *data)
 
 int	read_bitmap_header(t_data *data)
 {
+	printf("Reading bitmap header\n");;
 	if (!fread(&data->bmp_header, sizeof(t_bmp_header), 1, data->bmp_file))
 	{
 		printf("Error while reading BMP header!\n");
@@ -72,6 +74,7 @@ int	read_bitmap_data(t_data *data)
 	row = (data->bmp_header.width_px * 3 + 3) & ~3;
 	padding = row - (data->bmp_header.width_px * 3);
 
+	printf("Reading bitmap data\n");
 	data->bmp_data = malloc(row * data->bmp_header.height_px);
 	if (!data->bmp_data)
 	{

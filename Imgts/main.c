@@ -1,5 +1,5 @@
 #include "incl/imgts.h"
-#include <bits/types/FILE.h>
+//#include <bits/types/FILE.h>
 #include <stdint.h>
 
 void	print_pixels(t_data *data)
