@@ -1,6 +1,7 @@
 NAME = imgts
 
-SRC = main.c src/data.c src/bitmap_operations.c
+SRC = main.c src/data.c src/bitmap_operations.c src/image_to_sound_conversion.c \
+	src/wav_construction.c
 
 CC = cc
 FLAGS = -g #-fsanitize=address -static-libasan #-Wall -Wextra -Werror -g

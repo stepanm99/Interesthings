@@ -61,6 +61,7 @@ typedef struct s_data{
 	unsigned char	*bmp_data;
 	uint16_t		*wav_data;
 	t_pixel			*pixels;
+	uint32_t		number_of_samples;
 	t_bmp_header	bmp_header;
 	t_wav_header	wav_header;
 }	t_data;
@@ -72,10 +73,16 @@ int		open_files(t_data *data, const char **argv);
 void	close_files(t_data *data);
 int		read_bitmap_header(t_data *data);
 int		read_bitmap_data(t_data *data);
+void	prepare_wav_header(t_data *data);
+void	write_to_wav_file(t_data *data);
 void	data_init(t_data *data);
 
 /*----    Bitmap functions    ----*/
 
 void	get_pixel(t_pixel *pixel, t_pixel *pixel_data, int32_t x, int32_t y);
+
+/*----    Bitmap to sound conversion functions    ----*/
+
+void	pixel_average_to_sample(t_data *data);
 
 #endif
