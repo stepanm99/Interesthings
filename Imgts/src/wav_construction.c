@@ -37,7 +37,7 @@ void	write_to_wav_file(t_data *data)
 	ret = 0;
 	printf("Writing data to wav file\n");
 	print_samples(data);
-	ret += fwrite(&data->wav_header, sizeof(t_wav_header), 1, data->bmp_file);
-	ret += fwrite(data->bmp_data, 2 * data->number_of_samples, 1, data->bmp_file);
+	ret += fwrite(&data->wav_header, sizeof(t_wav_header), 1, data->wav_file);
+	ret += fwrite(&data->bmp_data, 2 * data->number_of_samples, 1, data->wav_file);
 	printf("\nWritten file size: %zu\n", ret);
 }
