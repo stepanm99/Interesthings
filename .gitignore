@@ -3,3 +3,4 @@ Imgts/output.wav
 Imgts/imgts
 Imgts/*.o
 Imgts/src/*.o
+Imgts/data/*
