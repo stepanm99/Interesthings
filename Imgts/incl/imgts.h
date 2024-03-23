@@ -85,5 +85,6 @@ void	get_pixel(t_pixel *pixel, t_pixel *pixel_data, int32_t x, int32_t y);
 
 void	pixel_average_to_sample(t_data *data);
 void	pixel_change_average_to_sample(t_data *data);
+void	pixel_average_zig_zag_to_sample(t_data *data);
 
 #endif

@@ -74,7 +74,7 @@ int	main(int argc, const char **argv)
 	// 	x++;
 	// }
 
-	pixel_change_average_to_sample(&data);
+	pixel_average_zig_zag_to_sample(&data);
 	prepare_wav_header(&data);
 	write_to_wav_file(&data);
 	close_files(&data);
