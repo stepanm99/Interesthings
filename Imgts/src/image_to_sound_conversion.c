@@ -110,6 +110,50 @@ void	pixel_change_average_to_sample(t_data *data)
 	}
 }
 
+/*----    Image spectrum scan    ----*/
+
+void	get_lines(t_data *data, t_pixel **interpolines, int y_max, int column)
+{
+	int	i;
+
+	i = 0;
+	while (i != y_max)
+	{
+		interpolines[0][i] = data->pixels[(i * y_max) + column];
+		interpolines[1][i] = data->pixels[((i + 1) * y_max) + column];
+		i++;
+	}
+}
+
+void	pixel_line_spectrum_scan(t_data *data)
+{
+	int		x;
+	int		y;
+	int		x_max;
+	int		y_max;
+	int		i;
+	int		number_of_samples;
+	int		samples_per_line;
+	char	back;
+	int16_t	average;
+	t_pixel	pixel;
+	t_pixel	interpolines[2][data->bmp_header.height_px];
+
+	x = 0;
+	y = 0;
+	x_max = data->bmp_header.width_px;
+	y_max = data->bmp_header.height_px;
+	i = 0;
+	back = 0;
+	samples_per_line = 100;
+	number_of_samples = x_max * samples_per_line;
+	data->wav_data = malloc(sizeof(int16_t) * number_of_samples);
+	if (!data->wav_data)
+	{
+		printf("Error while allocating memory for wav data!\n");
+		free_data(data);
+	}
+}
 // first iteration of this function
 // void	pixel_average_to_sample(t_data *data)
 // {
